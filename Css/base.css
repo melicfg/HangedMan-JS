@@ -1,0 +1,41 @@
+body {
+  background: #834d9b;
+  background: -webkit-gradient(linear, left top, right top, from(#d04ed6), to(#834d9b));
+  background: linear-gradient(to right, #d04ed6, #834d9b);
+}
+
+body header {
+  color: white;
+  text-align: center;
+}
+
+body main {
+  text-align: center;
+  color: white;
+}
+
+body main .btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+body main .btn:hover {
+  background-color: white;
+  color: #d04ed6;
+  border: 1px solid white;
+}
+
+body main .btn:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+body main .modal-content {
+  background-color: #d04ed6;
+}
+
+body main .modal-content .modal-header {
+  border-bottom-color: white;
+}
+/*# sourceMappingURL=base.css.map */
