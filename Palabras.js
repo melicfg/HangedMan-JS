@@ -1,8 +1,10 @@
 class banco {
     constructor({
         palabras,
+        espacios
     }) {
         this.palabras = palabras;
+        this.espacios = espacios;
     }
     agregarpalabra(palabra) {
         this.palabras.push(palabra);
@@ -37,7 +39,8 @@ let letras4 = new banco({
         "ruso",
         "tubo",
         "util"
-    ]
+    ],
+    espacios: 4
 })
 
 let letras5 = new banco({
@@ -96,7 +99,8 @@ let letras5 = new banco({
         "virus",
         "zorro",
         "zurdo"
-    ]
+    ],
+    espacios: 5
 })
 
 let letras6 = new banco({
@@ -159,7 +163,8 @@ let letras6 = new banco({
         "ulcera",
         "ultimo",
         "valido",
-    ]
+    ],
+    espacios: 6
 })
 
 let letras7 = new banco({
@@ -214,5 +219,6 @@ let letras7 = new banco({
         "utopico",
         "valores",
         "victima",
-    ]
+    ],
+    espacios: 7
 })
