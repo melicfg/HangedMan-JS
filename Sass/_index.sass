@@ -29,11 +29,20 @@ body
                 flex-wrap: wrap
                 li
                     list-style: none
-                    justify-content: center
-                    align-items: center
+                    @include d_flex
                     button
                         margin: 2px
                         height: 30px
                         width: 30px
-                        justify-content: center
-                        align-items: center
+                        @include d_flex
+        #letterTrash
+            display: flex
+            flex-wrap: wrap
+            justify-content: center
+            #trash
+                width: 60%
+                height: 100px
+                border: 1px solid white
+                border-radius: 10px
+                flex-wrap: wrap
+            

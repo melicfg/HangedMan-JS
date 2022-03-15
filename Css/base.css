@@ -76,4 +76,24 @@ body main #keyboard ul li button {
       -ms-flex-align: center;
           align-items: center;
 }
+
+body main #letterTrash {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body main #letterTrash #trash {
+  width: 60%;
+  height: 100px;
+  border: 1px solid white;
+  border-radius: 10px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
 /*# sourceMappingURL=base.css.map */

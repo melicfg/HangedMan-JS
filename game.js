@@ -45,7 +45,8 @@ function selectword(lista) {
 
 let showWord = (lista) => {
     let myWord = document.getElementById('word');
-    //let selectedWord = selectword(lista);
+    let myTrash = document.getElementById('trash');
+    myTrash.className = 'p-2';
     let numberSpaces = lista.espacios;
     myWord.innerHTML = '';
     for (let i = 0; i < numberSpaces; i++) {
@@ -59,12 +60,32 @@ let showWord = (lista) => {
     selectword(lista);
 }
 
+
+let isPresent = (letter, word) => {
+    let present = false;
+    let wordUpper = word.toUpperCase();
+    for (let i = 0; i < word.length; i++) {
+        if (letter === wordUpper[i]) {
+            present = true;
+        }
+    }
+    return present;
+}
+
 let check = (letter, word) => {
     let guessWord = word.toUpperCase();
+    let lastLetter = word.length - 1;
+    let present = isPresent(letter, word);
     for (let i = 0; i < word.length; i++) {
         if (letter == guessWord[i]) {
             let guess = document.getElementById('letter[' + i + ']')
             guess.innerHTML = guessWord[i];
+        } else if (!present && i == lastLetter) {
+            let trash = document.getElementById('letters')
+            let wrongLetter = document.createElement('span');
+            wrongLetter.className = 'm-1';
+            wrongLetter.innerHTML = letter;
+            trash.appendChild(wrongLetter);
         }
     }
 }
@@ -82,8 +103,5 @@ let events = (randomWord) => {
 }
 
 let inactive = (button) => {
-    console.log(button);
     button.disabled = true;
 }
-
-// remove event listeners
