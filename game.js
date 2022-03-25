@@ -1,7 +1,13 @@
 let alfabeto = [
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'Ñ', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
 ]
-
+let turns = 10;
+let computerScore = 0;
+let userScore = 0;
+let counting = 0;
+let myModal = new bootstrap.Modal(document.getElementById('endAlert'), {});
+let endModalBody = document.querySelector('#endAlert .modal-body p');
+let endModalTitle = document.querySelector('#endAlert .modal-title');
 
 const l4 = document.getElementById("dificultad4");
 l4.addEventListener("click", function() { showWord(letras4); });
@@ -11,6 +17,24 @@ const l6 = document.getElementById("dificultad6");
 l6.addEventListener("click", function() { showWord(letras6); });
 const l7 = document.getElementById("dificultad7");
 l7.addEventListener("click", function() { showWord(letras7); });
+
+const trash = document.getElementById('letters')
+
+//new game when first one is done
+
+let newGame = () => {
+    let newGameModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {});
+    newGameModal.show();
+    turns = 10;
+    counting = 0;
+    trash.innerHTML = '';
+    endModalBody.innerHTML = '';
+    endModalTitle.innerHTML = '';
+}
+
+const nuevoJuego = document.getElementById('newGame');
+nuevoJuego.addEventListener("click", newGame);
+
 
 //Keyword creation
 
@@ -58,8 +82,51 @@ let showWord = (lista) => {
     }
     keyboard();
     selectword(lista);
+    showTurns();
+    showScore();
 }
 
+//function that shows the turns
+let showTurns = () => {
+    let sectionTurns = document.getElementById('sct-turns');
+    sectionTurns.innerHTML = '';
+    let pTurn = document.createElement('p');
+    pTurn.id = 'p-turns'
+    pTurn.innerText = 'Turnos restantes: ' + turns;
+    sectionTurns.appendChild(pTurn)
+}
+
+//Function that changes the turns
+
+let changeTurns = (word) => {
+    if (turns > 0) {
+        let textTurns = document.getElementById('p-turns');
+        textTurns.innerHTML = '';
+        textTurns.innerHTML = 'Turnos restantes: ' + turns;
+    } else {
+        endModalBody.innerHTML = 'Tu palabra era: ' + word.toUpperCase();
+        endModalTitle.innerHTML = 'Has perdido! :(';
+        computerScore = computerScore + 1;
+        showScore();
+        myModal.show();
+        turns = 0;
+    }
+}
+
+//fuction that shows score
+
+let showScore = () => {
+    let sectionScore = document.getElementById('sct-score')
+    sectionScore.innerHTML = '';
+    let compScore = document.createElement('p');
+    compScore.innerText = 'Computadora: ' + computerScore;
+    compScore.classList.add('col-6')
+    let usScore = document.createElement('p');
+    usScore.innerText = 'Jugador: ' + userScore;
+    usScore.classList.add('col-6');
+    sectionScore.appendChild(compScore);
+    sectionScore.appendChild(usScore);
+}
 
 let isPresent = (letter, word) => {
     let present = false;
@@ -80,13 +147,28 @@ let check = (letter, word) => {
         if (letter == guessWord[i]) {
             let guess = document.getElementById('letter[' + i + ']')
             guess.innerHTML = guessWord[i];
+            counting = counting + 1;
+            checkWin(word);
         } else if (!present && i == lastLetter) {
-            let trash = document.getElementById('letters')
             let wrongLetter = document.createElement('span');
             wrongLetter.className = 'm-1';
             wrongLetter.innerHTML = letter;
             trash.appendChild(wrongLetter);
+            turns = turns - 1;
+            changeTurns(word);
         }
+    }
+}
+
+//function that checks if the player won
+
+let checkWin = (word) => {
+    if (counting == word.length) {
+        userScore = userScore + 1
+        showScore();
+        endModalBody.innerHTML = 'Es correcto! La palabra era: ' + word.toUpperCase();
+        endModalTitle.innerHTML = 'Has ganado! :)';
+        myModal.show();
     }
 }
 
