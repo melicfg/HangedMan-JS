@@ -5,6 +5,7 @@ let turns = 10;
 let computerScore = 0;
 let userScore = 0;
 let counting = 0;
+let hints = [];
 let myModal = new bootstrap.Modal(document.getElementById('endAlert'), {});
 let endModalBody = document.querySelector('#endAlert .modal-body p');
 let endModalTitle = document.querySelector('#endAlert .modal-title');
@@ -27,6 +28,7 @@ let newGame = () => {
     newGameModal.show();
     turns = 10;
     counting = 0;
+    hints = [];
     trash.innerHTML = '';
     endModalBody.innerHTML = '';
     endModalTitle.innerHTML = '';
@@ -81,6 +83,7 @@ let showWord = (lista) => {
         myWord.appendChild(spaces);
     }
     keyboard();
+    showHints();
     selectword(lista);
     showTurns();
     showScore();
@@ -92,7 +95,8 @@ let showTurns = () => {
     sectionTurns.innerHTML = '';
     let pTurn = document.createElement('p');
     pTurn.id = 'p-turns'
-    pTurn.innerText = 'Turnos restantes: ' + turns;
+    pTurn.classList.add('m-0');
+    pTurn.innerText = 'Intentos: ' + turns;
     sectionTurns.appendChild(pTurn)
 }
 
@@ -102,7 +106,7 @@ let changeTurns = (word) => {
     if (turns > 0) {
         let textTurns = document.getElementById('p-turns');
         textTurns.innerHTML = '';
-        textTurns.innerHTML = 'Turnos restantes: ' + turns;
+        textTurns.innerHTML = 'Intentos: ' + turns;
     } else {
         endModalBody.innerHTML = 'Tu palabra era: ' + word.toUpperCase();
         endModalTitle.innerHTML = 'Has perdido! :(';
@@ -127,6 +131,33 @@ let showScore = () => {
     sectionScore.appendChild(compScore);
     sectionScore.appendChild(usScore);
 }
+
+//function that shows the hint button
+
+let showHints = () => {
+    let sectionHints = document.getElementById('sct-hints');
+    sectionHints.innerHTML = '';
+    let hintButton = document.createElement('button');
+    hintButton.id = 'btn-hint'
+    hintButton.innerText = 'Pista';
+    hintButton.classList.add('btn');
+    sectionHints.appendChild(hintButton);
+};
+
+let getHint = word => {
+    let hintButton = document.getElementById('btn-hint');
+    let number = Math.floor(Math.random() * word.length);
+    let letter = word[number];
+    if (!hints.includes(letter)) {
+        hints.push(letter);
+        check(letter, word);
+        turns = turns - 1
+        changeTurns(word);
+        hintButton.disabled = true;
+    } else {
+        getHint(word);
+    }
+};
 
 let isPresent = (letter, word) => {
     let present = false;
@@ -174,11 +205,14 @@ let checkWin = (word) => {
 
 //add event listeners
 let events = (randomWord) => {
+    let word = randomWord.toUpperCase();
+    let hintButton = document.getElementById('btn-hint');
+    hintButton.addEventListener('click', function() { getHint(word); });
     for (let i = 0; i < alfabeto.length; i++) {
         let button = document.getElementById('letters_' + i)
         let letter = button.innerHTML;
         button.addEventListener("click", function() {
-            check(letter, randomWord);
+            check(letter, word);
             inactive(button)
         })
     }
