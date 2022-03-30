@@ -26,17 +26,26 @@ const trash = document.getElementById('letters')
 let newGame = () => {
     let newGameModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {});
     newGameModal.show();
-    turns = 10;
-    counting = 0;
-    hints = [];
-    trash.innerHTML = '';
     endModalBody.innerHTML = '';
     endModalTitle.innerHTML = '';
+    reset();
 }
 
 const nuevoJuego = document.getElementById('newGame');
 nuevoJuego.addEventListener("click", newGame);
 
+//reset function 
+
+let reset = () => {
+    turns = 10;
+    counting = 0;
+    hints = [];
+    trash.innerHTML = '';
+    keyboard();
+    showHints();
+    showTurns();
+    showScore();
+}
 
 //Keyword creation
 
@@ -75,6 +84,7 @@ let showWord = (lista) => {
     myTrash.className = 'p-2';
     let numberSpaces = lista.espacios;
     myWord.innerHTML = '';
+    reset();
     for (let i = 0; i < numberSpaces; i++) {
         let spaces = document.createElement('span');
         spaces.innerHTML = '__';
@@ -82,11 +92,7 @@ let showWord = (lista) => {
         spaces.id = 'letter[' + i + ']'
         myWord.appendChild(spaces);
     }
-    keyboard();
-    showHints();
     selectword(lista);
-    showTurns();
-    showScore();
 }
 
 //function that shows the turns
@@ -148,12 +154,14 @@ let getHint = word => {
     let hintButton = document.getElementById('btn-hint');
     let number = Math.floor(Math.random() * word.length);
     let letter = word[number];
+    let letterButton = document.getElementById('letters_' + alfabeto.indexOf(word[number]));
     if (!hints.includes(letter)) {
         hints.push(letter);
         check(letter, word);
         turns = turns - 1
         changeTurns(word);
         hintButton.disabled = true;
+        letterButton.disabled = true;
     } else {
         getHint(word);
     }
